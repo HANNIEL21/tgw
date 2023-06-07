@@ -8,10 +8,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  callback(){
-    context.showSnackbar("User logged in");
-  }
+  String? ErrorMessage;
+  bool loading = false;
 
 
   @override
@@ -19,26 +17,44 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SafeArea(
         child: Consumer<AuthProvider>(
-          builder: (context, provider, child){
+          builder: (context, provider, child) {
             return Column(
               children: [
-                Spacer(
+                const Spacer(
                   flex: 2,
                 ),
                 Container(
                   child: Image.asset("assets/twg-logo.png"),
                 ),
-                Spacer(
+                const Spacer(
                   flex: 1,
                 ),
                 Center(
-                  child: ElevatedButton.icon(
-                    onPressed: ()=> provider.googleLogin(callback: callback),
-                    icon: FaIcon(FontAwesomeIcons.google),
-                    label: Text("Sign in With Google"),
+                  child: loading ? const Center(child: CircularProgressIndicator(),) : ElevatedButton.icon(
+                    onPressed: () => provider.googleLogin(callback: (result) {
+                      final response = result;
+                      if (response.error != null) {
+                        setState(() {
+                          ErrorMessage = response.error.toString();
+                          context.showSnackbar(ErrorMessage!);
+                        });
+
+                        return;
+                      }
+
+                      setState(() {
+                        loading = response.isLoading;
+                      });
+
+                      if(response.data != null){
+                        context.showSnackbar("User Logged In");
+                      }
+                    }),
+                    icon: const FaIcon(FontAwesomeIcons.google),
+                    label: const Text("Sign in With Google"),
                   ),
                 ),
-                Spacer(
+                const Spacer(
                   flex: 2,
                 ),
               ],

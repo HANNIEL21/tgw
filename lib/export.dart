@@ -33,6 +33,11 @@ export 'package:tgw/data/constants/strings.dart';
 // Provider
 export 'package:tgw/data/provider/authprovider.dart';
 
+// Helper
+export 'package:tgw/data/provider/helper/base_helper.dart';
+export 'package:tgw/data/provider/helper/provider_response.dart';
+
+
 // Services
 export 'package:tgw/data/service/authservices.dart';
 

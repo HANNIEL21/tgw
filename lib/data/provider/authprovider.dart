@@ -3,31 +3,40 @@ import 'package:tgw/export.dart';
 
 class AuthProvider extends ChangeNotifier{
   final authService = AuthServices();
+  ProviderResponse _response = const ProviderResponse();
+  ProviderResponse get response => _response;
+
 
   GoogleSignInAccount? _user;
   GoogleSignInAccount get user => _user!;
 
-  Future googleLogin({required Function() callback}) async {
-    final googleUser = await GoogleSignIn().signIn();
+  Future googleLogin({required Function(ProviderResponse) callback}) async {
 
-    if(googleUser == null){
-      throw Exception("No User Found");
-      return;
-    }
+    _response = const ProviderResponse(isLoading: true);
+    notifyListeners();
 
-    _user = googleUser;
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
 
-    final googleAuth =await googleUser.authentication;
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
+      accessToken: gAuth.accessToken,
+      idToken: gAuth.idToken,
     );
 
-    await AuthServices().Signin(credential);
-    notifyListeners();
+    try{
+      final user = await AuthServices().Signin(credential);
+      _response = ProviderResponse(data: user);
+      notifyListeners();
+      callback(_response);
+    }catch  (e){
+      _response = ProviderResponse(error: e.toString());
+      callback(_response);
+      notifyListeners();
+    }
   }
 
   Future logout({required Function callback}) async {
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signOut();
     await AuthServices().logout();
     notifyListeners();
     callback();
