@@ -1,12 +1,16 @@
 import 'package:tgw/export.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => AuthProvider()),
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,17 +23,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Color(C.Cc.background),
-        appBarTheme: AppBarTheme(
-          backgroundColor: Color(C.Cc.primary)
-        ),
-        drawerTheme:  DrawerThemeData(
+        appBarTheme: AppBarTheme(backgroundColor: Color(C.Cc.primary)),
+        drawerTheme: DrawerThemeData(
           backgroundColor: Color(C.Cc.primary),
           elevation: 3,
         ),
         useMaterial3: true,
       ),
-      home: const RootScreen(),
+      home: const AuthPage(),
     );
   }
 }
-

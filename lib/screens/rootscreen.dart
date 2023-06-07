@@ -25,116 +25,125 @@ class _RootScreenState extends State<RootScreen> {
     else if(currentPage == DrawerSection.chat){screen = ChatScreen();}
     else if(currentPage == DrawerSection.account){screen = AccountScreen();}
 
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 3,
-        actions: [
-          Container(
-            width: 280,
-            height: 40,
-            decoration: BoxDecoration(
-              color: Color(C.Cc.background),
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 6,
-                  offset: Offset(0, 2),
-                ),
-              ],
+
+
+
+    callback(){
+      context.showSnackbar("User Logged Out");
+    }
+
+    return Consumer<AuthProvider>(builder: (context, provider, child){
+      return Scaffold(
+        appBar: AppBar(
+          elevation: 3,
+          actions: [
+            Container(
+              width: 280,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Color(C.Cc.background),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: TextFormField(
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Search",
+                    hintStyle: TextStyle(color: Color(C.Cc.secondary)),
+                    prefixIcon: const Icon(Icons.search)),
+              ),
             ),
-            child: TextFormField(
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Search",
-                  hintStyle: TextStyle(color: Color(C.Cc.secondary)),
-                  prefixIcon: const Icon(Icons.search)),
+            const SizedBox(
+              width: 25,
             ),
-          ),
-          const SizedBox(
-            width: 25,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(3),
-            child: GestureDetector(
-              onTap:(){
-                setState(() {
-                  screen = AccountScreen();
-                });
-              },
-              child: CircleAvatar(
-                backgroundColor: Color(C.Cc.primary),
-                child: Icon(
-                  Icons.person,
-                  size: 35,
-                  color: Color(C.Cc.secondary),
+            Padding(
+              padding: const EdgeInsets.all(3),
+              child: GestureDetector(
+                onTap:(){
+                  setState(() {
+                    screen = AccountScreen();
+                  });
+                },
+                child: CircleAvatar(
+                  backgroundColor: Color(C.Cc.primary),
+                  child: Icon(
+                    Icons.person,
+                    size: 35,
+                    color: Color(C.Cc.secondary),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Color(C.Cc.background),
-                    ),
-                    const Column(
-                      children: [
-                        Text("data"),
-                        Text("data"),
-                      ],
-                    )
-                  ],
-                ),
-                const Spacer(
-                  flex: 1,
-                ),
-                Column(children: [
-                  MenuItem(1, FontAwesomeIcons.house, "Home",
-                      currentPage == DrawerSection.home ? true : false),
-                  MenuItem(2, Icons.currency_exchange, "Exchange",
-                      currentPage == DrawerSection.exchange ? true : false),
-                  MenuItem(3, FontAwesomeIcons.arrowsLeftRight, "Converter",
-                      currentPage == DrawerSection.converter ? true : false),
-                  MenuItem(4, Icons.calculate, "Calculator",
-                      currentPage == DrawerSection.calculator ? true : false),
-                  MenuItem(5, Icons.chat_bubble, "Chat",
-                      currentPage == DrawerSection.chat ? true : false),
-                  MenuItem(6, Icons.person_2, "Account",
-                      currentPage == DrawerSection.account ? true : false),
-                ]),
-                const Spacer(
-                  flex: 1,
-                ),
-                Row(
-                  children: [
-                    ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.settings),
-                        label: const Text("Setting")),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    ElevatedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(Icons.logout),
-                        label: const Text("Logout")),
-                  ],
-                ),
-              ],
+          ],
+        ),
+        drawer: Drawer(
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Color(C.Cc.background),
+                      ),
+                      const Column(
+                        children: [
+                          Text("data"),
+                          Text("data"),
+                        ],
+                      )
+                    ],
+                  ),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  Column(children: [
+                    MenuItem(1, FontAwesomeIcons.house, "Home",
+                        currentPage == DrawerSection.home ? true : false),
+                    MenuItem(2, Icons.currency_exchange, "Exchange",
+                        currentPage == DrawerSection.exchange ? true : false),
+                    MenuItem(3, FontAwesomeIcons.arrowsLeftRight, "Converter",
+                        currentPage == DrawerSection.converter ? true : false),
+                    MenuItem(4, Icons.calculate, "Calculator",
+                        currentPage == DrawerSection.calculator ? true : false),
+                    MenuItem(5, Icons.chat_bubble, "Chat",
+                        currentPage == DrawerSection.chat ? true : false),
+                    MenuItem(6, Icons.person_2, "Account",
+                        currentPage == DrawerSection.account ? true : false),
+                  ]),
+                  const Spacer(
+                    flex: 1,
+                  ),
+                  Row(
+                    children: [
+                      ElevatedButton.icon(
+                          onPressed: () {},
+                          icon: const Icon(Icons.settings),
+                          label: const Text("Setting")),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton.icon(
+                          onPressed: () => provider.logout(callback: callback),
+                          icon: const Icon(Icons.logout),
+                          label: const Text("Logout")),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      body: screen,
-    );
+        body: screen,
+      );
+    });
   }
 
   Widget MenuItem(int id, IconData icon, String title, bool selected) {
