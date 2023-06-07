@@ -11,24 +11,19 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(C.Cc.background),
-      appBar: AppBar(
-        elevation: 3,
-        backgroundColor: Color(C.Cc.primary),
-
-        title: Text("Exchange"),
-      ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: ListView.builder(
-            itemCount: 100,
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-            return CurrencyTile();
-          },
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: ListView.builder(
+              itemCount: 100,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+              return CurrencyTile();
+            },
 
+            ),
           ),
         ),
       ),

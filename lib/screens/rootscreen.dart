@@ -1,4 +1,5 @@
 import 'package:tgw/export.dart';
+import 'package:tgw/screens/calculatorscreen.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -19,6 +20,10 @@ class _RootScreenState extends State<RootScreen> {
     var screen;
     if(currentPage == DrawerSection.home){screen = HomeScreen();}
     else if(currentPage == DrawerSection.exchange){screen = ExchangeScreen();}
+    else if(currentPage == DrawerSection.converter){screen = ConverterScreen();}
+    else if(currentPage == DrawerSection.calculator){screen = CalculatorScreen();}
+    else if(currentPage == DrawerSection.chat){screen = ChatScreen();}
+    else if(currentPage == DrawerSection.account){screen = AccountScreen();}
 
     return Scaffold(
       appBar: AppBar(
@@ -51,12 +56,19 @@ class _RootScreenState extends State<RootScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(3),
-            child: CircleAvatar(
-              backgroundColor: Color(C.Cc.primary),
-              child: Icon(
-                Icons.person,
-                size: 35,
-                color: Color(C.Cc.secondary),
+            child: GestureDetector(
+              onTap:(){
+                setState(() {
+                  screen = AccountScreen();
+                });
+              },
+              child: CircleAvatar(
+                backgroundColor: Color(C.Cc.primary),
+                child: Icon(
+                  Icons.person,
+                  size: 35,
+                  color: Color(C.Cc.secondary),
+                ),
               ),
             ),
           ),
@@ -85,15 +97,17 @@ class _RootScreenState extends State<RootScreen> {
                   flex: 1,
                 ),
                 Column(children: [
-                  MenuItem(1, Icons.home, "Home",
+                  MenuItem(1, FontAwesomeIcons.house, "Home",
                       currentPage == DrawerSection.home ? true : false),
                   MenuItem(2, Icons.currency_exchange, "Exchange",
                       currentPage == DrawerSection.exchange ? true : false),
-                  MenuItem(3, Icons.calculate, "Calculator",
+                  MenuItem(3, FontAwesomeIcons.arrowsLeftRight, "Converter",
+                      currentPage == DrawerSection.converter ? true : false),
+                  MenuItem(4, Icons.calculate, "Calculator",
                       currentPage == DrawerSection.calculator ? true : false),
-                  MenuItem(4, Icons.chat_bubble, "Chat",
+                  MenuItem(5, Icons.chat_bubble, "Chat",
                       currentPage == DrawerSection.chat ? true : false),
-                  MenuItem(5, Icons.person_2, "Account",
+                  MenuItem(6, Icons.person_2, "Account",
                       currentPage == DrawerSection.account ? true : false),
                 ]),
                 const Spacer(
@@ -137,9 +151,10 @@ class _RootScreenState extends State<RootScreen> {
             setState(() {
               if(id == 1){currentPage = DrawerSection.home;}
               else if(id == 2){currentPage = DrawerSection.exchange;}
-              else if(id == 3){currentPage = DrawerSection.calculator;}
-              else if(id == 4){currentPage = DrawerSection.chat;}
-              else if(id == 5){currentPage = DrawerSection.account;}
+              else if(id == 3){currentPage = DrawerSection.converter;}
+              else if(id == 4){currentPage = DrawerSection.calculator;}
+              else if(id == 5){currentPage = DrawerSection.chat;}
+              else if(id == 6){currentPage = DrawerSection.account;}
             });
           },
           child: Padding(
@@ -147,7 +162,7 @@ class _RootScreenState extends State<RootScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: Icon(
+                  child: FaIcon(
                     icon,
                     size: 30,
                     color:
@@ -180,6 +195,7 @@ class _RootScreenState extends State<RootScreen> {
 enum DrawerSection  {
   home,
   exchange,
+  converter,
   calculator,
   chat,
   account,
