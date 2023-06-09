@@ -5,13 +5,17 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ChangeNotifierProvider(create: (_) => CurrencyProvider()..init()),
     ],
     child: MyApp(),
   ));
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -27,6 +31,10 @@ class MyApp extends StatelessWidget {
         drawerTheme: DrawerThemeData(
           backgroundColor: Color(C.Cc.primary),
           elevation: 3,
+        ),
+        primaryIconTheme: IconThemeData(
+          size: 30,
+          color: Color(C.Cc.secondary)
         ),
         useMaterial3: true,
       ),

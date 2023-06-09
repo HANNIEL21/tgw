@@ -1,9 +1,10 @@
 import 'package:tgw/export.dart';
 
-class CurrencyTile extends StatelessWidget {
-  final name;
-  final code;
-  const CurrencyTile({super.key, this.name, this.code});
+class CurrencyTile2 extends StatelessWidget {
+
+
+  final String? name;
+  const CurrencyTile2({super.key, this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,6 @@ class CurrencyTile extends StatelessWidget {
           children: [
             CircleAvatar(),
             Text(name!),
-            Text(code!),
           ],
         ),
       ),

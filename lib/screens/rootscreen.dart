@@ -17,6 +17,15 @@ class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
 
+    String? title;
+    if(currentPage == DrawerSection.home){title = "Home";}
+    else if(currentPage == DrawerSection.exchange){title = "Exchange";}
+    else if(currentPage == DrawerSection.converter){title = "Converter";}
+    else if(currentPage == DrawerSection.calculator){title = "Calculator";}
+    else if(currentPage == DrawerSection.chat){title = "Chat";}
+    else if(currentPage == DrawerSection.account){title = "Account";}
+
+
     var screen;
     if(currentPage == DrawerSection.home){screen = HomeScreen();}
     else if(currentPage == DrawerSection.exchange){screen = ExchangeScreen();}
@@ -35,30 +44,9 @@ class _RootScreenState extends State<RootScreen> {
     return Consumer<AuthProvider>(builder: (context, provider, child){
       return Scaffold(
         appBar: AppBar(
+          title: Text(title!, style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color(C.Cc.secondary)),),
           elevation: 3,
           actions: [
-            Container(
-              width: 280,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Color(C.Cc.background),
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 6,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: TextFormField(
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Search",
-                    hintStyle: TextStyle(color: Color(C.Cc.secondary)),
-                    prefixIcon: const Icon(Icons.search)),
-              ),
-            ),
             const SizedBox(
               width: 25,
             ),
@@ -71,12 +59,8 @@ class _RootScreenState extends State<RootScreen> {
                   });
                 },
                 child: CircleAvatar(
-                  backgroundColor: Color(C.Cc.primary),
-                  child: Icon(
-                    Icons.person,
-                    size: 35,
-                    color: Color(C.Cc.secondary),
-                  ),
+                  backgroundColor: Color(C.Cc.background),
+                  child: Text(provider.userEmail!.substring(0, 1).toUpperCase(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(C.Cc.primary)),),
                 ),
               ),
             ),
@@ -88,21 +72,34 @@ class _RootScreenState extends State<RootScreen> {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: Column(
                 children: [
+
+
+                  Spacer(flex: 1,),
+
                   Row(
                     children: [
+
                       CircleAvatar(
                         backgroundColor: Color(C.Cc.background),
+                        child: Icon(
+                          Icons.person,
+                          size: 35,
+                          color: Color(C.Cc.primary),
+                        ),
                       ),
-                      const Column(
+                       SizedBox(width: 8,),
+
+                       Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("data"),
-                          Text("data"),
+                          Text(provider.userEmail!, style: TextStyle(fontWeight: FontWeight.bold, color: Color(C.Cc.background)),),
+                          Text(provider.userId!, style: TextStyle(fontWeight: FontWeight.bold, color: Color(C.Cc.background)),),
                         ],
                       )
                     ],
                   ),
                   const Spacer(
-                    flex: 1,
+                    flex: 2,
                   ),
                   Column(children: [
                     MenuItem(1, FontAwesomeIcons.house, "Home",
@@ -119,7 +116,7 @@ class _RootScreenState extends State<RootScreen> {
                         currentPage == DrawerSection.account ? true : false),
                   ]),
                   const Spacer(
-                    flex: 1,
+                    flex: 2,
                   ),
                   Row(
                     children: [
@@ -136,6 +133,8 @@ class _RootScreenState extends State<RootScreen> {
                           label: const Text("Logout")),
                     ],
                   ),
+
+                  Spacer(flex: 1,),
                 ],
               ),
             ),

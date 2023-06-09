@@ -1,21 +1,16 @@
 import 'package:tgw/export.dart';
 
-class PadButton extends StatelessWidget {
+class Button extends StatelessWidget {
   final String child;
+  final color;
+  final textColor;
   final VoidCallback onTap;
-  PadButton({super.key, required this.child, required this.onTap,});
+  Button({super.key, required this.child, required this.onTap, this.color, this.textColor,});
 
   var buttonColor = Color(C.Cc.background);
 
   @override
   Widget build(BuildContext context) {
-    if (child == "c") {
-      buttonColor = Colors.green;
-    } else if (child == 'DEL') {
-      buttonColor = Colors.red;
-    } else if (child == '=') {
-      buttonColor = Color(C.Cc.secondary);
-    }
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -23,13 +18,13 @@ class PadButton extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-              color: Color(C.Cc.primary),
+              color: color,
               borderRadius: BorderRadius.circular(15)),
           child: Center(
             child: Text(
               child,
               style: TextStyle(
-                  color: Color(C.Cc.secondary),
+                  color: Color(C.Cc.background),
                   fontSize: 25,
                   fontWeight: FontWeight.bold),
             ),

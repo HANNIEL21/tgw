@@ -1,31 +1,25 @@
 import 'package:tgw/export.dart';
 
-class ExchangeScreen extends StatefulWidget {
+class ExchangeScreen extends StatelessWidget {
   const ExchangeScreen({super.key});
 
   @override
-  State<ExchangeScreen> createState() => _ExchangeScreenState();
-}
-
-class _ExchangeScreenState extends State<ExchangeScreen> {
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: ListView.builder(
-              itemCount: 100,
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-              return CurrencyTile();
-            },
+    final currencyProvider = Provider.of<CurrencyProvider>(context);
 
-            ),
-          ),
-        ),
+    return Scaffold(
+      body: currencyProvider.currencyData != null
+          ? ListView.builder(
+        itemCount: currencyProvider.currencyData!.rates.length,
+        itemBuilder: (context, index) {
+          final currency = currencyProvider.currencyData!.rates.keys.elementAt(index);
+          final rate = currencyProvider.currencyData!.rates[currency];
+
+          return CurrencyTile(name: currency, code: rate,);
+        },
+      )
+          : Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }

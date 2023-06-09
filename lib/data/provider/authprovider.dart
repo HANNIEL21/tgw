@@ -2,6 +2,10 @@ import 'package:tgw/data/service/authservices.dart';
 import 'package:tgw/export.dart';
 
 class AuthProvider extends ChangeNotifier{
+  final String? userEmail = FirebaseAuth.instance.currentUser?.email;
+  final String? userId = FirebaseAuth.instance.currentUser?.uid;
+
+
   final authService = AuthServices();
   ProviderResponse _response = const ProviderResponse();
   ProviderResponse get response => _response;
